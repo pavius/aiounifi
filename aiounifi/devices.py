@@ -142,6 +142,12 @@ class Device(APIItem):
         """Wlan configuration override."""
         return self.raw.get("wlan_overrides", [])
 
+    async def async_set_enabled(self, enabled) -> None:
+        url = f"/rest/device/{self.id}"
+        data = {"disabled": not enabled}
+
+        await self._request("put", url, json=data)
+
     async def async_set_port_poe_mode(self, port_idx, mode) -> None:
         """Set port poe mode.
 
